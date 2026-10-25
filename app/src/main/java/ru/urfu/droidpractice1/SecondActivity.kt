@@ -7,7 +7,6 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import coil.load
 import ru.urfu.droidpractice1.data.ArticleImages
-import ru.urfu.droidpractice1.data.ArticlePrefs
 import ru.urfu.droidpractice1.databinding.ActivitySecondBinding
 
 class SecondActivity : ComponentActivity() {
@@ -23,12 +22,10 @@ class SecondActivity : ComponentActivity() {
         binding.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
         binding.articleImage.load(ArticleImages.LEBRON_URL)
 
-        val isRead = ArticlePrefs.isSecondArticleRead(this)
-        binding.readSwitch.isChecked = isRead
-        setReadResult(isRead)
+        binding.readSwitch.isChecked = intent.getBooleanExtra(EXTRA_IS_READ, false)
+        setReadResult(binding.readSwitch.isChecked)
 
         binding.readSwitch.setOnCheckedChangeListener { _, isChecked ->
-            ArticlePrefs.setSecondArticleRead(this, isChecked)
             setReadResult(isChecked)
         }
     }

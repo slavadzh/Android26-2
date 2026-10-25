@@ -44,7 +44,6 @@ import coil.compose.AsyncImage
 import ru.urfu.droidpractice1.R
 import ru.urfu.droidpractice1.SecondActivity
 import ru.urfu.droidpractice1.data.ArticleImages
-import ru.urfu.droidpractice1.data.ArticlePrefs
 import ru.urfu.droidpractice1.ui.theme.DroidPractice1Theme
 
 @Composable
@@ -53,9 +52,7 @@ fun MainActivityScreen() {
 
     var likeCount by rememberSaveable { mutableStateOf(0) }
     var dislikeCount by rememberSaveable { mutableStateOf(0) }
-    var isSecondArticleRead by rememberSaveable {
-        mutableStateOf(ArticlePrefs.isSecondArticleRead(context))
-    }
+    var isSecondArticleRead by rememberSaveable { mutableStateOf(false) }
 
     val secondArticleLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -180,7 +177,10 @@ fun MainActivityScreen() {
 
                 Card(
                     onClick = {
-                        secondArticleLauncher.launch(Intent(context, SecondActivity::class.java))
+                        secondArticleLauncher.launch(
+                            Intent(context, SecondActivity::class.java)
+                                .putExtra(SecondActivity.EXTRA_IS_READ, isSecondArticleRead)
+                        )
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
